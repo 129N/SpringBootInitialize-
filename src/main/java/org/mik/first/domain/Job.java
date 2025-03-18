@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true, exclude = {"client"} )
+@ToString(callSuper = true )
 @SuperBuilder
 @Getter
 @Setter
@@ -29,7 +29,8 @@ public class Job extends AbstractDomain<Long>{
     private LocalDateTime finished;
 
     @ToString.Exclude
-    @OneToMany(targetEntity = Client.class, mappedBy = "jobs")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "client", nullable = false)
     private Client client;
 
     @NotBlank

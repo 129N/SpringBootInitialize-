@@ -20,9 +20,8 @@ import java.util.List;
 @Entity
 @Table(name = Client.TBL_NAME)
 @SequenceGenerator(name = "SEQ", sequenceName = "client_seq", allocationSize = 1)
-public abstract class Client extends AbstractDomain<Long> {
+public class Client extends AbstractDomain<Long> {
     public static final String TBL_NAME = "client";
-
 
     @Length(min = 2, max = 100)
     @NotBlank
