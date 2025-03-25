@@ -1,56 +1,58 @@
 package org.mik.first.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true, exclude = {"country", "job"})
+@EqualsAndHashCode(callSuper = true, exclude = {"country", "jobs"})
 @ToString(callSuper = true)
 @Getter
 @Setter
 
 @Entity
 @Table(name = Client.TBL_NAME)
-@SequenceGenerator(name = "SEQ", sequenceName = "client_seq", allocationSize = 1)
+@SequenceGenerator(name = "id_generator", sequenceName = "client_seq", allocationSize = 1)
 public class Client extends AbstractDomain<Long> {
-    public static final String TBL_NAME = "client";
 
-    @Length(min = 2, max = 100)
-    @NotBlank
-    @Column(name = "name", nullable = false, length = 100)
+    public static final String TBL_NAME = "client";
+    public static final String FLD_NAME = "name";
+    public static final String FLD_ADDRESS = "address";
+    public static final String FLD_COUNTRY = "country";
+    public static final String FLD_AMOUNT = "amount";
+
+    @NotNull
+    @Length(min = 3, max = 100)
+    @Column(name = FLD_NAME, nullable = false, length = 100)
     private String name;
 
-    @Length(min = 2, max = 100)
-    @NotBlank
-    @Column(name = "address", nullable = false, length = 100)
+    @NotNull
+    @Length(min = 3, max = 30)
+    @Column(name = FLD_ADDRESS, nullable = false, length = 30)
     private String address;
 
-    @ManyToOne(targetEntity = Country.class)
+    @NotNull
+    @ManyToOne(targetEntity = Country.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = FLD_COUNTRY, nullable = false)
+    @ToString.Exclude
     private Country country;
 
-    @Column(name = "amount", nullable = false)
+    @NotNull
+    @Column(name = FLD_AMOUNT, nullable = false)
     private Integer amount;
 
-    @Builder.Default
-
-    @OneToMany(targetEntity = Job.class, mappedBy = "client")
-    private List<Job> jobs=new LinkedList<>();
-
-
-//    public synchronized void addJob(@NonNull Job job, @NonNull Client partner, @NonNull JobType type) throws BadParameterException {
-//        job.setClient(partner);
-//        if (!job.isValid())
-//            throw new BadParameterException("job is invalid: %s".formatted(job));
-//        job.setJobType(type);
-//        jobs.add(job);
-//    }
+    @ToString.Exclude
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, orphanRemoval = true,
+               cascade = CascadeType.MERGE, targetEntity = Job.class)
+    private Set<Job> jobs;
 
 }

@@ -1,23 +1,49 @@
 spring:
   application:
     name: First Spring Application
+server:
+  address: @server.port@
+
+---
+spring:
+  config:
+    activate:
+      on-profile:  develop
+  datasource:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    url: @develop.db.url@
+    username: @develop.db.user@
+    password: @develop.db.passwd@
+
+    #data: classpath*:data.sql
   jpa:
-    database: h2
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-    datasource:
-        url: jdbc:h2:mem:testdb
-        username: sa
-        password: password
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
 
 logging:
   level:
     org:
       springframework: INFO
-      hibernate: DEBUG
-      mik: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type: TRACE
 
-
-
+---
+spring:
+  config:
+    activate:
+      on-profile:  prod
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: @prod.db.url@
+    username: @prod.db.user@
+    password: @prod.db.passwd@
+jpa:
+  databasePlatform: org.hibernate.dialect.PostgreSQLDialect
 

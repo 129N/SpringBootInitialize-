@@ -20,26 +20,25 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AbstractDomain<ID extends Serializable> implements Serializable {
 
-    public static final String FLD_ID="id";
-    public static final String FLD_CREATED="created";
-    public static final String FLD_UPDATED="updated";
+    public static final String FLD_ID = "id";
+    public static final String FLD_NAME = "name";
 
-    @EqualsAndHashCode.Include
     @Id
+    @Column(name = FLD_ID, updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
-    @Column(name = FLD_ID, nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private ID id;
 
-    @EqualsAndHashCode.Exclude
+    @Version
+    @EqualsAndHashCode.Include
+    private Integer version;
+
     @CreationTimestamp
+    @EqualsAndHashCode.Exclude
     private LocalDateTime created;
 
-    @EqualsAndHashCode.Exclude
     @UpdateTimestamp
+    @EqualsAndHashCode.Exclude
     private LocalDateTime updated;
-
-    @EqualsAndHashCode.Include
-    @Version
-    private Long version;
 
 }
