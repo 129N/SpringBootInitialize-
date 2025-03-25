@@ -79,4 +79,11 @@ public class ClientService extends AbstractService<Long, Client> {
         return this.jobRepository.findByClientAndJobTypeAndStartingIsGreaterThanEqual(client, jobType, starting);
     }
 
+    @Override
+    protected Client copy(Client original, Client modified) {
+        original.setAmount(modified.getAmount());
+        original.setName(modified.getName());
+        original.setAddress(modified.getAddress());
+        return original;
+    }
 }
