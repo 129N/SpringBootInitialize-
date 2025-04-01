@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: First Spring Applicaiton
+    jpa:
+      database: h2
+      hibernate:
+        ddl-auto: create-drop
+      show-sql: true
+      datacource:
+          url: jdbc:h2:mem:testdb
+          username: sa
+          password: password
+logging:
+  level:
+    org:
+      springframework: INFO
+      hibernate: DEBUG
+      mik: DEBUG
+

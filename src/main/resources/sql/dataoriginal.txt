@@ -1,0 +1,126 @@
+insert into country(name, sign) values (,);
+
+
+
+public static final List<Country> COUNTRIES=List.of(
+
+insert into country(name, sign) values (,);
+
+
+        Country.builder().name("USA").sign("US").build(),
+        Country.builder().name("Hungary").sign("HU").build(),
+        Country.builder().name("United Kingdom").sign("GB").build(),
+        Country.builder().name("France").sign("FR").build(),
+        Country.builder().name("Germany").sign("DE").build(),
+        Country.builder().name("Italy").sign("IT").build(),
+        Country.builder().name("Spain").sign("ES").build(),
+        Country.builder().name("China").sign("CN").build(),
+        Country.builder().name("Japan").sign("JP").build(),
+        Country.builder().name("Brazil").sign("BR").build(),
+        Country.builder().name("India").sign("IN").build(),
+        Country.builder().name("Canada").sign("CA").build(),
+        Country.builder().name("Australia").sign("AU").build(),
+        Country.builder().name("South Africa").sign("ZA").build(),
+        Country.builder().name("Betelgeuse").sign("BET").build(),
+        Country.builder().name("Earth").sign("EARTH").build(),
+        Country.builder().name("Viltvolde VI").sign("VV").build(),
+        Country.builder().name("Vogsphere").sign("VOG").build(),
+        Country.builder().name("Magrathean").sign("MA").build(),
+        Country.builder().name("Ursa Minor Beta").sign("UMB").build()
+    );
+
+
+
+public static final List<Company> COMPANIES = List.of(
+Company.builder()
+                    .name("Sirius Cybernetics Corporation")
+                    .address("Ursa Minor Beta")
+                    .amount(1000)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("UMB"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("123456789")
+                    .established(1978)
+                    .capitalisation(84_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)\n values
+
+                    .name("Infinite Improbability Drive")
+                    .address("Ursa Minor Beta")
+                    .amount(2000)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("UMB"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("987654321")
+                    .established(-1500)
+                    .capitalisation(60_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)\n values
+
+                    .name("The Hitchhiker's Guide to the Galaxy")
+                    .address("London")
+                    .amount(5000)
+                    .country(Country.COUNTRIES.stream()
+                            .filter(c->c.getSign().equals("EARTH"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("123123123")
+                    .established(1980)
+                    .capitalisation(100_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)\n values
+
+                    .name("Deep Thought")
+                    .address("NY")
+                    .amount(300)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("EARTH"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("456456456")
+                    .established(-1000)
+                    .capitalisation(90_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)\n values
+
+                    .name("The Restaurant at the End of the Universe")
+                    .address("Viltvolde VI")
+                    .amount(10)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("VV"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("789789789")
+                    .established(-2500)
+                    .capitalisation(41_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)\n values
+
+                    .name("The Vogon Constructor Fleet")
+                    .address("Vogsphere")
+                    .amount(10000)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("VOG"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("321321321")
+                    .established(-3000)
+                    .capitalisation(8_000L)
+                    .build(),
+            insert into company(name, address, amounnt, country)
+            values(
+                         "Magrathea planet builder Ltd"
+                         "Magrathea"
+                        12000
+                        (select id from country where sign='VOG')
+
+            )
+
+                    .name("Magrathea planet builder Ltd")
+                    .address("Magrathea")
+                    .amount(12000)
+                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("MA"))
+                            .findFirst()
+                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
+                    .taxId("654654654")
+                    .established(-5000)
+                    .capitalisation(42_000L)
+                    .build()
+    );

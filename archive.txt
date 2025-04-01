@@ -1,0 +1,8 @@
+       7
+       from pom.xml()27 btw developers and properties
+       <scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
