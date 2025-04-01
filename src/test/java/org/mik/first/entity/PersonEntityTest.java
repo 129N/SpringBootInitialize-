@@ -31,11 +31,6 @@ public class PersonEntityTest extends AbstractEntityTest<Long, Person, Exception
         })).toList();
     }
 
-    @Override
-    protected ParameterizedTypeReference<List<Person>> getParametrizedTypeReference() {
-        return new ParameterizedTypeReference<>() {
-        };
-    }
 
     @Override
     protected List<Person> getTestData() {

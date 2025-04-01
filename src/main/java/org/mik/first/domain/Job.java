@@ -29,7 +29,7 @@ public class Job extends AbstractDomain<Long> {
     public static final String FLD_STARTING = "starting";
     public static final String FLD_FINISHED = "finished";
     public static final String FLD_CLIENT = "client";
-    public static final String FLD_VALUE = "value";
+    public static final String FLD_VALUE = "val";
     public static final String FLD_JOB_TYPE = "job_type";
 
     @Column(name = FLD_STARTING, nullable = true)

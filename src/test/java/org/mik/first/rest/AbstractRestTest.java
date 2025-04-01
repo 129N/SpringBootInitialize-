@@ -20,6 +20,8 @@ public abstract class AbstractRestTest<ID extends Serializable, E extends Abstra
     protected final TestRestTemplate restTemplate;
     protected final String url;
 
+    protected abstract ParameterizedTypeReference<List<E>> getParametrizedTypeReference();
+
     public AbstractRestTest(TestRestTemplate restTemplate, String url, JpaRepository<E, ID> repository) {
         super(repository);
         this.restTemplate=restTemplate;

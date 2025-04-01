@@ -35,11 +35,6 @@ public class ClientEntityTest extends AbstractEntityTest<Long, Client, Exception
     }
 
     @Override
-    protected ParameterizedTypeReference<List<Client>> getParametrizedTypeReference() {
-        return new ParameterizedTypeReference<>() {};
-    }
-
-    @Override
     protected List<Client> getTestData() {
         return TEST_DATA;
     }

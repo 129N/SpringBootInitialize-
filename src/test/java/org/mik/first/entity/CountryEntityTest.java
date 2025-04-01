@@ -25,11 +25,6 @@ public class CountryEntityTest extends AbstractEntityTest<Long, Country, Excepti
     }
 
     @Override
-    protected ParameterizedTypeReference<List<Country>> getParametrizedTypeReference() {
-        return new ParameterizedTypeReference<>() {};
-    }
-
-    @Override
     protected List<Country> getTestData() {
         return TEST_DATA;
     }

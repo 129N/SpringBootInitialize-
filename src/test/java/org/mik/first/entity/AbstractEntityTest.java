@@ -7,7 +7,6 @@ import org.mik.first.domain.AbstractDomain;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
-import java.util.*;
 
 @Log4j2
 public abstract class AbstractEntityTest<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception>

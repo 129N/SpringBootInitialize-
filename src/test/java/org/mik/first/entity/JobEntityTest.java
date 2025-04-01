@@ -33,12 +33,6 @@ public class JobEntityTest extends AbstractEntityTest<Long, Job, Exception> impl
     }
 
     @Override
-    protected ParameterizedTypeReference<List<Job>> getParametrizedTypeReference() {
-        return new ParameterizedTypeReference<>() {
-        };
-    }
-
-    @Override
     protected List<Job> getTestData() {
         return TEST_DATA;
     }

@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +20,7 @@ public class Person extends AbstractDomain<Long> {
     public static final String TBL_NAME="person";
     public static final String FLD_CLIENT="client_id";
     public static final String FLD_PERSONAL_ID="personal_id";
-    public static final String FLD_BIRTH_DATE="birth_data";
+    public static final String FLD_BIRTH_DATE="birth_date";
 
     @NotNull
     @ManyToOne(targetEntity=Client.class, fetch= FetchType.EAGER)

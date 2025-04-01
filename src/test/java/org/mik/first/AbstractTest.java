@@ -36,7 +36,6 @@ public abstract class AbstractTest <ID extends Serializable, E extends AbstractD
     protected abstract List<ValidEntity<ID, E>> getValidEntities();
     protected abstract List<InvalidEntry<ID, E, X>> getInvalidEntities();
 
-    protected abstract ParameterizedTypeReference<List<E>> getParametrizedTypeReference();
     protected abstract List<E> getTestData();
 
     protected abstract void test();

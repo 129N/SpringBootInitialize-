@@ -35,11 +35,6 @@ public class CompanyEntityTest extends AbstractEntityTest<Long, Company, Excepti
     }
 
     @Override
-    protected ParameterizedTypeReference<List<Company>> getParametrizedTypeReference() {
-        return new ParameterizedTypeReference<>() {};
-    }
-
-    @Override
     protected List<Company> getTestData() {
         return TEST_DATA;
     }
