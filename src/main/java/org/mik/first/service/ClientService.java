@@ -1,29 +1,43 @@
 package org.mik.first.service;
 
-import jakarta.transaction.Transactional;
+
+
 import lombok.extern.log4j.Log4j2;
 import org.mik.first.domain.Client;
 import org.mik.first.domain.Job;
 import org.mik.first.domain.JobType;
+import org.mik.first.dto.ClientDTO;
+import org.mik.first.dto.mapper.ClientMapper;
 import org.mik.first.repository.ClientRepository;
-import org.mik.first.repository.JobRepositorty;
+
+import org.mik.first.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
 
 @Log4j2
 @Service
 @Transactional
-public class ClientService extends AbstractService<Long, Client> {
-    private final JobRepositorty jobRepository;
+public class ClientService extends AbstractService<Long, Client, ClientDTO> {
+
+
+    private final JobRepository jobRepository;
 
     @Autowired
-    public ClientService(ClientRepository repository, JobRepositorty jobRepository){
-        super(repository);
-        this.jobRepository=jobRepository;
+    public ClientService(ClientRepository repository,
+                         JobRepository jobRepository,
+                         ClientMapper mapper) {
+        super(repository, mapper);
+        this.jobRepository = jobRepository;
+        this.entityMapper = mapper;
     }
+
+
 
     @Transactional
     public void addJob(Client seller,  Client buyer, String name, int value) {
@@ -34,7 +48,9 @@ public class ClientService extends AbstractService<Long, Client> {
             throw new IllegalArgumentException("Seller has not enough money: %s".formatted(seller));
 
         Job sellerJob = Job.builder()
-                .jobName(name)
+
+                .name(name)
+
                 .value(value)
                 .client(seller)
                 .jobType(JobType.SELL)
@@ -45,7 +61,8 @@ public class ClientService extends AbstractService<Long, Client> {
             throw new IllegalArgumentException("Job already exists in seller: %s".formatted(seller));
 
         Job buyerJob = Job.builder()
-                .jobName(name)
+
+                .name(name)
                 .value(value)
                 .client(buyer)
                 .jobType(JobType.BUY)
@@ -68,12 +85,12 @@ public class ClientService extends AbstractService<Long, Client> {
     }
 
 
-
     public List<Job> getJobs(Client client, JobType jobType) {
-        return this.jobRepository.findByClientAndJob(client, jobType);
+        return this.jobRepository.findByClientAndJobType(client, jobType);
     }
+
     public List<Job> getStartedJobs(Client client, JobType jobType, LocalDateTime starting) {
-        return this.jobRepository.findByClientAndJobTYPEandStartingIsGreaterthanEqual(client, jobType, starting);
+        return this.jobRepository.findByClientAndJobTypeAndStartingIsGreaterThanEqual(client, jobType, starting);
     }
 
     @Override
@@ -83,5 +100,6 @@ public class ClientService extends AbstractService<Long, Client> {
         original.setAddress(modified.getAddress());
         return original;
     }
+
 
 }

@@ -11,54 +11,53 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class AbstractTest<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception> {
+
+public abstract class AbstractTest <ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception> {
 
     @AllArgsConstructor
     @Data
-    public  static class ValidEntity<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception > {
+    public static class ValidEntity<ID extends Serializable, E extends AbstractDomain<ID>> {
+
         public E entity;
         public Consumer<E> onUpdate;
     }
 
     @AllArgsConstructor
     @Data
-    public static class InvalidEntity<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception> {
-        List<E> entity;
-        Class<X> Exception;
+
+    public static class InvalidEntry<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception> {
+        List<E> entities;
+        Class<X> expectedException;
     }
 
-    protected List<ValidEntity<ID, E, X>> validEntities;
-
-    protected  List<InvalidEntity<ID,E,X>> invalidEntities;
-
-    protected  JpaRepository<E,ID> repository;
+    protected List<ValidEntity<ID, E>> validEntities;
+    protected List<InvalidEntry<ID, E, X>> invalidEntities;
+    protected JpaRepository<E, ID> repository;
 
     protected abstract Class<E> getClazz();
 
-    protected abstract List<ValidEntity<ID, E, X>> getValidEntities();
-    protected abstract List<InvalidEntity<ID, E, X>> getInvalidEntities();
+    protected abstract List<ValidEntity<ID, E>> getValidEntities();
+    protected abstract List<InvalidEntry<ID, E, X>> getInvalidEntities();
 
-    protected abstract ParameterizedTypeReference<List<E>> getParametrizedTypeReference();
+
     protected abstract List<E> getTestData();
 
     protected abstract void test();
 
-    public AbstractTest(JpaRepository<E,ID> repository){
-        this.repository = repository;
+
+        public AbstractTest(JpaRepository<E, ID> repository) {
+        this.repository=repository;
+
     }
 
     protected void beforeTest() {
         this.validEntities=getValidEntities();
-        if(validEntities==null || validEntities.isEmpty()) {
-            Assertions.fail("Valid entities cannot be empty ");
-        }
 
+        if (validEntities==null||validEntities.isEmpty())
+            Assertions.fail("valid entities cannot be empty");
     }
 
-
-    protected void afterTest(){
-
-    }
+    protected void afterTest() {}
 
 
     public void start() {
@@ -75,6 +74,5 @@ public abstract class AbstractTest<ID extends Serializable, E extends AbstractDo
         data.clear();
         data.addAll(this.repository.findAll());
     }
-
 
 }

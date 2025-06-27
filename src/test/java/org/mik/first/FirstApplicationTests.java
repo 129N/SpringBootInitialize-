@@ -5,7 +5,8 @@ import org.junit.jupiter.api.*;
 import org.mik.first.domain.Client_Test;
 import org.mik.first.domain.Country_test;
 import org.mik.first.repository.ClientRepository;
-import org.mik.first.repository.Countryrepository;
+import org.mik.first.repository.CountryRepository;
+//import org.mik.first.repository.Countryrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +41,7 @@ class FirstApplicationTests {
 	private static PostgreSQLContainer<?> PostgresService=new PostgreSQLContainer<>("postgres-16:alpine");
 
 	@Autowired
-	Countryrepository countryrepository;
+	CountryRepository countryrepository;
 	@Autowired
 	ClientRepository clientRepository;
 

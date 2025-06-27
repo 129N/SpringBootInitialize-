@@ -15,80 +15,59 @@ import org.springframework.http.ResponseEntity;
 import java.io.Serializable;
 import java.util.List;
 
-public class AbstractRestTest<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception> extends AbstractTest<ID,E,X> {
+
+public abstract class AbstractRestTest<ID extends Serializable, E extends AbstractDomain<ID>, X extends Exception>
+        extends AbstractTest<ID, E, X> {
+
 
     protected final TestRestTemplate restTemplate;
     protected final String url;
 
-    public AbstractRestTest(TestRestTemplate restTemplate, String url, JpaRepository<E, ID> repository){
+
+    protected abstract ParameterizedTypeReference<List<E>> getParametrizedTypeReference();
+
+    public AbstractRestTest(TestRestTemplate restTemplate, String url, JpaRepository<E, ID> repository) {
         super(repository);
         this.restTemplate=restTemplate;
-        this.url =url;
+        this.url=url;
     }
 
     @Override
-    protected Class<E> getClazz() {
-        return null;
-    }
+    protected void test() {
 
-    @Override
-    protected List<ValidEntity<ID, E, X>> getValidEntities() {
-        return null;
-    }
-
-    @Override
-    protected List<InvalidEntity<ID, E, X>> getInvalidEntities() {
-        return null;
-    }
-
-    @Override
-    protected ParameterizedTypeReference<List<E>> getParametrizedTypeReference() {
-        return null;
-    }
-
-    @Override
-    protected List<E> getTestData() {
-        return null;
-    }
-
-    @Override
-    protected void test(){
         beforeTest();
         restTest();
         afterTest();
     }
 
-
-    protected void restTest(){
-        validEntities.forEach(e->{
-            E entity =insertEntity(e.getEntity());
+    protected void restTest() {
+        validEntities.forEach(e-> {
+            E entity=insertEntity(e.getEntity());
             findEntity(entity);
             e.onUpdate.accept(entity);
-            updateEntity(entity) ;
+            updateEntity(entity);
             deleteEntity(entity);
         });
-
     }
 
-
     protected E insertEntity(E e) {
-        ResponseEntity<E> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(e), getClazz());
-        Assertions.assertNotNull(responseEntity);
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        E body = responseEntity.getBody();
+        ResponseEntity<E> response = this.restTemplate.exchange(url,
+                HttpMethod.POST, new HttpEntity<>(e), getClazz());
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        E body = response.getBody();
         Assertions.assertNotNull(body);
         Assertions.assertNotNull(body.getId());
-
         E restored = this.repository.getReferenceById(body.getId());
         Assertions.assertNotNull(restored);
         Assertions.assertEquals(restored, body);
-
         return body;
     }
 
-
     protected void findEntity(E e) {
-        ResponseEntity<E> response =this.restTemplate.exchange(url+"/"+e.getId(),HttpMethod.GET, new HttpEntity<>(e), getClazz() );
+        ResponseEntity<E> response=this.restTemplate.exchange(url+"/"+e.getId(),
+                HttpMethod.GET, HttpEntity.EMPTY, getClazz());
+
 
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -99,9 +78,10 @@ public class AbstractRestTest<ID extends Serializable, E extends AbstractDomain<
 
     }
 
+    protected void updateEntity(E e) {
+        ResponseEntity<E> response=this.restTemplate.exchange(url+"/"+e.getId(),
+                HttpMethod.PUT, new HttpEntity<>(e), getClazz());
 
-    protected void updateEntity(E e){
-        ResponseEntity<E> response  = this.restTemplate.exchange(url+"/"+e.getId(),HttpMethod.DELETE, new HttpEntity<>(e), getClazz());
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         E body = response.getBody();
@@ -110,10 +90,14 @@ public class AbstractRestTest<ID extends Serializable, E extends AbstractDomain<
     }
 
     protected void deleteEntity(E e) {
-        ResponseEntity<Void> response = this.restTemplate.exchange(url+"/"+e.getId(), HttpMethod.DELETE, new HttpEntity<>(e), Void.class );
+
+        ResponseEntity<Void> response=this.restTemplate.exchange(url+"/"+e.getId(),
+                HttpMethod.DELETE, new HttpEntity<>(e), Void.class);
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        repository.findById(e.getId()).ifPresent(d-> {throw new RuntimeException("%s is not deleted");});
+        repository.findById(e.getId())
+                .ifPresent(d-> {throw new RuntimeException("%s is not deleted");
+                            });
     }
 
 }

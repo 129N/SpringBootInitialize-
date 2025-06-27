@@ -21,9 +21,10 @@ import org.mik.first.domain.AbstractDomain;
 
 import jakarta.persistence.*;
 //<Long, Job>
+
+/*
 @Service
-@Log4j2
-public class JobService extends AbstractService<Long,Job>{
+public class JobService extends AbstractService<Long,Job, Jo>{
     private static final boolean TEST = false;
     private static final Logger log = LoggerFactory.getLogger(JobService.class);
 
@@ -89,3 +90,4 @@ public class JobService extends AbstractService<Long,Job>{
 
     }
 }
+*/

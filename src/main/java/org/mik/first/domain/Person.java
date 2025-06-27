@@ -1,124 +1,41 @@
 package org.mik.first.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 
-import java.util.List;
+@Entity
+@Table(name=Person.TBL_NAME)
 
-
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper=true)
+public class Person extends AbstractDomain<Long> {
+    public static final String TBL_NAME="person";
+    public static final String FLD_CLIENT="client_id";
+    public static final String FLD_PERSONAL_ID="personal_id";
+    public static final String FLD_BIRTH_DATE="birth_date";
 
-@Entity
-@Table(name = Person.TBL_NAME)
-
-//public class Person extends AbstractDomain<Long>
-public class Person extends Client{
-
-    public static final List<Person> PERSONS = List.of(
-            Person.builder()
-                    .name("Zaphod Beeblebrox")
-                    .address("Betelgeuse City")
-                    .amount(42)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("BET"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("123456789")
-                    .age(42)
-                    .build(),
-            Person.builder()
-                    .name("Ford Prefect")
-                    .address("Betelgeuse City")
-                    .amount(142)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("BET"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("987654321")
-                    .age(41)
-                    .build(),
-            Person.builder()
-                    .name("Arthur Dent")
-                    .address("London")
-                    .amount(10042)
-                    .country(Country.COUNTRIES.stream()
-                            .filter(c->c.getSign().equals("EARTH"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("123123123")
-                    .age(32)
-                    .build(),
-            Person.builder()
-                    .name("Tricia McMillan")
-                    .address("Leshoto")
-                    .amount(12)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("ZA"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("456456456")
-                    .age(23)
-                    .build(),
-            Person.builder()
-                    .name("Humma Kavula")
-                    .address("Viltvolde VI")
-                    .amount(20042)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("VV"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("789789789")
-                    .age(70)
-                    .build(),
-            Person.builder()
-                    .name("Prostetnic Vogon Jeltz")
-                    .address("Vogaria")
-                    .amount(3000)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("VOG"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("321321321")
-                    .age(170)
-                    .build(),
-            Person.builder()
-                    .name("Slartibartfast")
-                    .address("Magrathea")
-                    .amount(1)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("MA"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("654654654")
-                    .age(2000)
-                    .build(),
-            Person.builder()
-                    .name("Marvin the robot")
-                    .address("Betelgeuse")
-                    .amount(0)
-                    .country(Country.COUNTRIES.stream().filter(c->c.getSign().equals("BET"))
-                            .findFirst()
-                            .orElseThrow(()->new RuntimeException(Country.COUNTRY_NOT_FOUND)))
-                    .personalId("987987987")
-                    .age(4)
-                    .build()
-    );
-
-    @ToString.Exclude
-    @ManyToOne(targetEntity = Client.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "client", nullable = false)
+    @NotNull
+    @ManyToOne(targetEntity=Client.class, fetch= FetchType.EAGER)
+    @JoinColumn(name=FLD_CLIENT, nullable=false)
     private Client client;
 
-    @Length(min = 12, max = 12)
-    @Column(name = "personal_Id", nullable = false, unique = true, length = 12)
+    @NotNull
+    @Length(min=12, max=12)
+    @Column(name=FLD_PERSONAL_ID, nullable=false, unique=true, length = 12)
     private String personalId;
 
-    @Column(name = "age", nullable = false)
-    private Integer age;
-
+    @NotNull
+    @Column(name=FLD_BIRTH_DATE, nullable=false)
+    private LocalDate birthDate;
 
 }
+
